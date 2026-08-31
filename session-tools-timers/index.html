@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Timers</title>
+  <link rel="stylesheet" href="css/tools.css">
+</head>
+<body>
+  <svg width="0" height="0" aria-hidden="true" style="position:absolute">
+    <defs>
+      <linearGradient id="ringGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#6366f1"/>
+        <stop offset="100%" stop-color="#2dd4bf"/>
+      </linearGradient>
+    </defs>
+  </svg>
+  <div class="presenter">
+    <div class="slide-viewport" id="deck">
+
+      <!-- Slide 1: Quiz Time -->
+      <article class="slide active" data-slide="0">
+        <div class="slide-badge">⏱️</div>
+        <h1>Quiz Time</h1>
+        <div class="accent-bar"></div>
+
+        <div class="timer-panel">
+          <div class="timer-setup">
+            <label for="quizMinutesInput">Duration</label>
+            <input type="number" id="quizMinutesInput" min="1" max="120" value="5" aria-label="Quiz minutes">
+            <label>minutes</label>
+          </div>
+
+          <div class="timer-ring-wrap" id="quizRingWrap">
+            <svg class="timer-ring" viewBox="0 0 120 120" aria-hidden="true">
+              <circle class="ring-bg" cx="60" cy="60" r="50"/>
+              <circle class="ring-progress" id="quizRingProgress" cx="60" cy="60" r="50"
+                stroke-dasharray="314.16" stroke-dashoffset="0"/>
+            </svg>
+            <div class="timer-display" id="quizDisplay">05:00</div>
+          </div>
+
+          <p class="timer-status" id="quizStatus"></p>
+
+          <div class="timer-controls">
+            <button class="btn btn-start" id="quizStart">▶ Start</button>
+            <button class="btn btn-pause" id="quizPause" disabled>⏸ Pause</button>
+            <button class="btn btn-reset" id="quizReset">↺ Reset</button>
+          </div>
+        </div>
+      </article>
+
+      <!-- Slide 2: Doubt Resolution Time -->
+      <article class="slide" data-slide="1">
+        <div class="slide-badge">💬</div>
+        <h1>Doubt Resolution Time</h1>
+        <div class="accent-bar"></div>
+
+        <!-- <div class="timer-panel">
+          <div class="timer-setup">
+            <label for="doubtMinutesInput">Duration</label>
+            <input type="number" id="doubtMinutesInput" min="1" max="120" value="5" aria-label="Doubt resolution minutes">
+            <label>minutes</label>
+          </div>
+
+          <div class="timer-ring-wrap" id="doubtRingWrap">
+            <svg class="timer-ring" viewBox="0 0 120 120" aria-hidden="true">
+              <circle class="ring-bg" cx="60" cy="60" r="50"/>
+              <circle class="ring-progress" id="doubtRingProgress" cx="60" cy="60" r="50"
+                stroke-dasharray="314.16" stroke-dashoffset="0"/>
+            </svg>
+            <div class="timer-display" id="doubtDisplay">05:00</div>
+          </div>
+
+          <p class="timer-status" id="doubtStatus"></p>
+
+          <div class="timer-controls">
+            <button class="btn btn-start" id="doubtStart">▶ Start</button>
+            <button class="btn btn-pause" id="doubtPause" disabled>⏸ Pause</button>
+            <button class="btn btn-reset" id="doubtReset">↺ Reset</button>
+          </div>
+        </div> -->
+      </article>
+
+      <!-- Slide 3: Break Time -->
+      <article class="slide" data-slide="2">
+        <div class="slide-badge">☕</div>
+        <h1>Break / Practice Time</h1>
+        <div class="accent-bar"></div>
+
+        <div class="timer-panel">
+          <div class="timer-setup">
+            <label for="breakMinutesInput">Duration</label>
+            <input type="number" id="breakMinutesInput" min="1" max="120" value="5" aria-label="Break minutes">
+            <label>minutes</label>
+          </div>
+
+          <div class="timer-ring-wrap" id="breakRingWrap">
+            <svg class="timer-ring" viewBox="0 0 120 120" aria-hidden="true">
+              <circle class="ring-bg" cx="60" cy="60" r="50"/>
+              <circle class="ring-progress" id="breakRingProgress" cx="60" cy="60" r="50"
+                stroke-dasharray="314.16" stroke-dashoffset="0"/>
+            </svg>
+            <div class="timer-display" id="breakDisplay">05:00</div>
+          </div>
+
+          <p class="timer-status" id="breakStatus"></p>
+
+          <div class="timer-controls">
+            <button class="btn btn-start" id="breakStart">▶ Start</button>
+            <button class="btn btn-pause" id="breakPause" disabled>⏸ Pause</button>
+            <button class="btn btn-reset" id="breakReset">↺ Reset</button>
+          </div>
+        </div>
+      </article>
+
+    </div>
+
+  </div>
+
+  <script src="js/tools.js"></script>
+</body>
+</html>
