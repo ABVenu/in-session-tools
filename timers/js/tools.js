@@ -250,6 +250,10 @@ createTimer(breakTimerConfig);
   const badgeEl = document.getElementById("breakSlideBadge");
   const breakPick = document.getElementById("breakTitlePick");
   const practicePick = document.getElementById("practiceTitlePick");
+  const breakSlot = document.getElementById("breakTitleSlot");
+  const practiceSlot = document.getElementById("practiceTitleSlot");
+  const sepSlot = document.getElementById("breakTitleSepSlot");
+  const sepEl = document.getElementById("breakTitleSep");
   const statusEl = breakTimerConfig.status;
 
   const ICONS = { default: "☕", break: "☕", practice: "📚" };
@@ -266,23 +270,40 @@ createTimer(breakTimerConfig);
     statusEl.textContent = breakTimerConfig.getRunningMessage();
   }
 
+  function setSegmentCollapsed(slot, collapsed) {
+    if (!slot) return;
+    slot.classList.toggle("is-collapsed", collapsed);
+    slot.setAttribute("aria-hidden", collapsed ? "true" : "false");
+    const btn = slot.querySelector("button");
+    if (btn) btn.tabIndex = collapsed ? -1 : 0;
+  }
+
   function applyMode(next) {
     mode = next;
     BREAK_MODE.value = next;
-    titleEl.classList.remove("mode-break", "mode-practice");
+    titleEl.classList.remove("mode-break", "mode-practice", "is-focused");
     badgeEl.classList.remove("mode-break-only", "mode-practice-only");
+
+    const hideBreak = mode === "practice";
+    const hidePractice = mode === "break";
+    const hideSep = mode === "break" || mode === "practice";
+
+    setSegmentCollapsed(breakSlot, hideBreak);
+    setSegmentCollapsed(practiceSlot, hidePractice);
+    setSegmentCollapsed(sepSlot, hideSep);
+    if (sepEl) sepEl.setAttribute("aria-hidden", hideSep ? "true" : "false");
 
     breakPick.setAttribute("aria-pressed", mode === "break" ? "true" : "false");
     practicePick.setAttribute("aria-pressed", mode === "practice" ? "true" : "false");
 
     if (mode === "break") {
-      titleEl.classList.add("mode-break");
+      titleEl.classList.add("mode-break", "is-focused");
       badgeEl.classList.add("mode-break-only");
       badgeEl.textContent = ICONS.break;
       badgeEl.setAttribute("aria-label", "Break — click to show both options");
       badgeEl.tabIndex = 0;
     } else if (mode === "practice") {
-      titleEl.classList.add("mode-practice");
+      titleEl.classList.add("mode-practice", "is-focused");
       badgeEl.classList.add("mode-practice-only");
       badgeEl.textContent = ICONS.practice;
       badgeEl.setAttribute("aria-label", "Practice time");

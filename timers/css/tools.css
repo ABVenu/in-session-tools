@@ -1,6 +1,4 @@
-@import url('../css/styles.css');
-
-/* session-tools overrides — standalone if styles.css path fails */
+/* session-tools styles */
 :root {
   --bg: #0a0e1a;
   --accent: #6366f1;
@@ -225,64 +223,103 @@ html, body {
   text-align: center;
 }
 
-/* ── Break / Practice title toggles (slide 2) ── */
-.break-practice-title {
+/* ── Break / Practice slide header (slide 2) ── */
+.break-slide-header {
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  gap: 0.15rem;
+  width: 100%;
 }
 
-.title-pick {
+#breakSlideBadge {
+  transition: opacity 0.35s ease;
+}
+
+.break-practice-heading {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  margin: 0 0 0.5rem;
+  font-size: clamp(2.2rem, 5vw, 3.5rem);
+  font-weight: 800;
+  line-height: 1.15;
+  text-align: center;
+  color: #eef2ff;
+  text-shadow: 0 0 40px rgba(165, 180, 252, 0.25);
+}
+
+.title-slot {
+  display: inline-flex;
+  overflow: hidden;
+  max-width: 24rem;
+  opacity: 1;
+  flex: 0 1 auto;
+  transition:
+    opacity 0.4s ease,
+    max-width 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.title-slot--sep {
+  max-width: 4rem;
+}
+
+.title-slot.is-collapsed {
+  max-width: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.title-chip {
+  display: inline-block;
   font: inherit;
   font-size: inherit;
   font-weight: inherit;
   line-height: inherit;
-  letter-spacing: inherit;
+  color: #eef2ff;
+  -webkit-text-fill-color: #eef2ff;
   border: none;
-  padding: 0.15rem 0.35rem;
   margin: 0;
-  cursor: pointer;
-  border-radius: 0.35rem;
+  padding: 0.12em 0.28em;
   background: transparent;
-  background-image: linear-gradient(135deg, #fff 20%, var(--accent-light));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  transition: opacity 0.2s, transform 0.15s, box-shadow 0.2s;
+  border-radius: 0.3em;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: color 0.2s ease, box-shadow 0.2s ease;
 }
 
-.title-pick:hover {
-  transform: scale(1.02);
+.title-chip--sep {
+  color: var(--muted);
+  -webkit-text-fill-color: var(--muted);
+  cursor: default;
+  user-select: none;
+  pointer-events: none;
+}
+
+.title-chip:not(.title-chip--sep):hover {
+  color: var(--accent-light);
+  -webkit-text-fill-color: var(--accent-light);
   box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.35);
 }
 
-.title-pick[aria-pressed="true"] {
-  box-shadow: 0 0 0 2px rgba(45, 212, 191, 0.55);
+.title-chip[aria-pressed="true"] {
+  box-shadow: 0 0 0 2px rgba(45, 212, 191, 0.5);
 }
 
-.title-sep {
-  background: linear-gradient(135deg, #fff 20%, var(--accent-light));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  user-select: none;
-}
-
-#breakPracticeTitle.mode-break #breakTitleSep,
-#breakPracticeTitle.mode-break #practiceTitlePick {
-  display: none;
-}
-
-#breakPracticeTitle.mode-practice #breakTitlePick,
-#breakPracticeTitle.mode-practice #breakTitleSep {
-  display: none;
+.break-slide-header .accent-bar {
+  margin-top: 0.25rem;
 }
 
 #breakSlideBadge.mode-break-only,
 #breakSlideBadge.mode-practice-only {
-  font-size: clamp(4rem, 12vw, 6.5rem);
   cursor: pointer;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .title-slot,
+  #breakSlideBadge {
+    transition: none;
+  }
 }
 
