@@ -50,8 +50,48 @@
         </div>
       </article>
 
-      <!-- Slide 2: Doubt Resolution Time -->
+      <!-- Slide 2: Break / Practice Time -->
       <article class="slide" data-slide="1">
+        <div class="slide-badge" id="breakSlideBadge" role="img" aria-label="">☕</div>
+        <h1 class="break-practice-title" id="breakPracticeTitle">
+          <button type="button" class="title-pick" id="breakTitlePick" aria-pressed="false">
+            Break
+          </button>
+          <span class="title-sep" id="breakTitleSep" aria-hidden="true"> / </span>
+          <button type="button" class="title-pick" id="practiceTitlePick" aria-pressed="false">
+            Practice Time
+          </button>
+        </h1>
+        <div class="accent-bar"></div>
+
+        <div class="timer-panel">
+          <div class="timer-setup">
+            <label for="breakMinutesInput">Duration</label>
+            <input type="number" id="breakMinutesInput" min="1" max="120" value="5" aria-label="Break minutes">
+            <label>minutes</label>
+          </div>
+
+          <div class="timer-ring-wrap" id="breakRingWrap">
+            <svg class="timer-ring" viewBox="0 0 120 120" aria-hidden="true">
+              <circle class="ring-bg" cx="60" cy="60" r="50"/>
+              <circle class="ring-progress" id="breakRingProgress" cx="60" cy="60" r="50"
+                stroke-dasharray="314.16" stroke-dashoffset="0"/>
+            </svg>
+            <div class="timer-display" id="breakDisplay">05:00</div>
+          </div>
+
+          <p class="timer-status" id="breakStatus"></p>
+
+          <div class="timer-controls">
+            <button class="btn btn-start" id="breakStart">▶ Start</button>
+            <button class="btn btn-pause" id="breakPause" disabled>⏸ Pause</button>
+            <button class="btn btn-reset" id="breakReset">↺ Reset</button>
+          </div>
+        </div>
+      </article>
+
+      <!-- Slide 3: Doubt Resolution Time -->
+      <article class="slide" data-slide="2">
         <div class="slide-badge">💬</div>
         <h1>Doubt Resolution Time</h1>
         <div class="accent-bar"></div>
@@ -80,38 +120,6 @@
             <button class="btn btn-reset" id="doubtReset">↺ Reset</button>
           </div>
         </div> -->
-      </article>
-
-      <!-- Slide 3: Break Time -->
-      <article class="slide" data-slide="2">
-        <div class="slide-badge">☕</div>
-        <h1>Break / Practice Time</h1>
-        <div class="accent-bar"></div>
-
-        <div class="timer-panel">
-          <div class="timer-setup">
-            <label for="breakMinutesInput">Duration</label>
-            <input type="number" id="breakMinutesInput" min="1" max="120" value="5" aria-label="Break minutes">
-            <label>minutes</label>
-          </div>
-
-          <div class="timer-ring-wrap" id="breakRingWrap">
-            <svg class="timer-ring" viewBox="0 0 120 120" aria-hidden="true">
-              <circle class="ring-bg" cx="60" cy="60" r="50"/>
-              <circle class="ring-progress" id="breakRingProgress" cx="60" cy="60" r="50"
-                stroke-dasharray="314.16" stroke-dashoffset="0"/>
-            </svg>
-            <div class="timer-display" id="breakDisplay">05:00</div>
-          </div>
-
-          <p class="timer-status" id="breakStatus"></p>
-
-          <div class="timer-controls">
-            <button class="btn btn-start" id="breakStart">▶ Start</button>
-            <button class="btn btn-pause" id="breakPause" disabled>⏸ Pause</button>
-            <button class="btn btn-reset" id="breakReset">↺ Reset</button>
-          </div>
-        </div>
       </article>
 
     </div>

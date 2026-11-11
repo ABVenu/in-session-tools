@@ -55,7 +55,13 @@ function createTimer(config) {
     btnReset,
     readyMessage,
     runningMessage,
+    getRunningMessage,
   } = config;
+
+  function resolveRunningMessage() {
+    if (typeof getRunningMessage === "function") return getRunningMessage();
+    return runningMessage;
+  }
 
   let totalSeconds = defaultMinutes * 60;
   let remainingSeconds = totalSeconds;
@@ -97,7 +103,7 @@ function createTimer(config) {
       display.classList.add("warning");
       status.textContent = "Less than 2 minutes remaining";
     } else if (isRunning && !isPaused) {
-      status.textContent = runningMessage;
+      status.textContent = resolveRunningMessage();
     }
   }
 
@@ -123,7 +129,7 @@ function createTimer(config) {
     btnStart.disabled = true;
     btnPause.disabled = false;
     btnPause.textContent = "⏸ Pause";
-    status.textContent = runningMessage;
+    status.textContent = resolveRunningMessage();
 
     timerInterval = setInterval(tick, 1000);
     updateDisplay();
@@ -135,7 +141,7 @@ function createTimer(config) {
       isPaused = false;
       btnPause.textContent = "⏸ Pause";
       timerInterval = setInterval(tick, 1000);
-      status.textContent = runningMessage;
+      status.textContent = resolveRunningMessage();
     } else {
       isPaused = true;
       clearInterval(timerInterval);
@@ -212,7 +218,9 @@ createTimer({
   runningMessage: "Doubt resolution in progress…",
 }); */
 
-createTimer({
+const BREAK_MODE = { value: "default" };
+
+const breakTimerConfig = {
   defaultMinutes: 5,
   minutesInput: document.getElementById("breakMinutesInput"),
   display: document.getElementById("breakDisplay"),
@@ -223,5 +231,93 @@ createTimer({
   btnPause: document.getElementById("breakPause"),
   btnReset: document.getElementById("breakReset"),
   readyMessage: "",
-  runningMessage: "Break in progress…",
-});
+  runningMessage: "Break / practice in progress…",
+  getRunningMessage() {
+    const MESSAGES = {
+      default: "Break / practice in progress…",
+      break: "Break in progress…",
+      practice: "Practice time in progress…",
+    };
+    return MESSAGES[BREAK_MODE.value] ?? MESSAGES.default;
+  },
+};
+
+createTimer(breakTimerConfig);
+
+/* ── Break vs Practice presenter focus (slide 2, UI only) ── */
+(function initBreakPracticeTitle() {
+  const titleEl = document.getElementById("breakPracticeTitle");
+  const badgeEl = document.getElementById("breakSlideBadge");
+  const breakPick = document.getElementById("breakTitlePick");
+  const practicePick = document.getElementById("practiceTitlePick");
+  const statusEl = breakTimerConfig.status;
+
+  const ICONS = { default: "☕", break: "☕", practice: "📚" };
+
+  let mode = "default";
+
+  function syncRunningStatus() {
+    const running = breakTimerConfig.btnStart.disabled;
+    const paused = breakTimerConfig.btnPause.textContent.includes("Resume");
+    if (!running) return;
+    if (paused) return;
+    const text = statusEl.textContent;
+    if (text.includes("seconds left") || text.includes("minute")) return;
+    statusEl.textContent = breakTimerConfig.getRunningMessage();
+  }
+
+  function applyMode(next) {
+    mode = next;
+    BREAK_MODE.value = next;
+    titleEl.classList.remove("mode-break", "mode-practice");
+    badgeEl.classList.remove("mode-break-only", "mode-practice-only");
+
+    breakPick.setAttribute("aria-pressed", mode === "break" ? "true" : "false");
+    practicePick.setAttribute("aria-pressed", mode === "practice" ? "true" : "false");
+
+    if (mode === "break") {
+      titleEl.classList.add("mode-break");
+      badgeEl.classList.add("mode-break-only");
+      badgeEl.textContent = ICONS.break;
+      badgeEl.setAttribute("aria-label", "Break — click to show both options");
+      badgeEl.tabIndex = 0;
+    } else if (mode === "practice") {
+      titleEl.classList.add("mode-practice");
+      badgeEl.classList.add("mode-practice-only");
+      badgeEl.textContent = ICONS.practice;
+      badgeEl.setAttribute("aria-label", "Practice time");
+      badgeEl.tabIndex = 0;
+    } else {
+      badgeEl.textContent = ICONS.default;
+      badgeEl.removeAttribute("aria-label");
+      badgeEl.tabIndex = -1;
+    }
+
+    syncRunningStatus();
+  }
+
+  breakPick.addEventListener("click", (e) => {
+    e.stopPropagation();
+    applyMode(mode === "break" ? "default" : "break");
+  });
+
+  practicePick.addEventListener("click", (e) => {
+    e.stopPropagation();
+    applyMode(mode === "practice" ? "default" : "practice");
+  });
+
+  badgeEl.addEventListener("click", () => {
+    if (mode === "break" || mode === "practice") {
+      applyMode("default");
+    }
+  });
+
+  breakPick.addEventListener("keydown", (e) => {
+    if (e.key === "Enter" || e.key === " ") e.stopPropagation();
+  });
+  practicePick.addEventListener("keydown", (e) => {
+    if (e.key === "Enter" || e.key === " ") e.stopPropagation();
+  });
+
+  applyMode("default");
+})();
